@@ -9,11 +9,12 @@ require 'ffi-compiler/compile_task'
 desc "compiler tasks"
 namespace "ffi-compiler" do
   FFI::Compiler::CompileTask.new('ext/webp_ffi/webp_ffi') do |c|
-    c.have_header?('stdio.h', '/usr/local/include')
+    include_path = ENV.fetch("CPATH", '/usr/local/include')
+    c.have_header?('stdio.h', include_path)
     c.have_func?('puts')
     c.have_library?('z')
-    c.have_header?('decode.h', '/usr/local/include')
-    c.have_header?('encode.h', '/usr/local/include')
+    c.have_header?('decode.h', include_path)
+    c.have_header?('encode.h', include_path)
     c.have_func?('WebPDecoderConfig')
     c.have_func?('WebPGetInfo')
     c.have_library?('webp')
